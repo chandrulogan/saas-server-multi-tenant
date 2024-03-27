@@ -15,7 +15,7 @@ mongoose.connect('mongodb+srv://chandrufsdtesting:chandru@cluster0.2syaxg8.mongo
     .catch(err => console.error('Error connecting to database:', err));
 
 // Routes
-app.use('/api', userRoutes);
+app.use('/api', userRoutes); //company signup
 app.use('/api', ticketRoutes);
 
 // Start the server

@@ -7,7 +7,7 @@ const createUser = async (req, res) => {
 
     try {
         // Create a new collection for users
-        const User = db.model('User', UserModel.schema);
+        const User = db.model('Admin', UserModel.schema);
         const newUser = new User({
             name: req.body.name,
             email: req.body.email
