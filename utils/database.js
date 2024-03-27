@@ -5,3 +5,4 @@ const connectToDatabase = (organization) => {
 };
 
 module.exports = { connectToDatabase };
+

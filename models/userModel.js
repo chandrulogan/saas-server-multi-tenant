@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     organisationName: {
         type: String,
-        required: [true, "Organisation name is mandatory"]
+        required: [true, "Organisation name is mandatory"],
+        unique: [true, "Organisation name is already registered"]
     },
     name: {
         type: String,
@@ -11,8 +12,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: [true, "Name is mandatory"]
-
+        required: [true, "Name is mandatory"],
     },
     mobileNumber: {
         type: Number,
@@ -26,10 +26,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "confirmPassword is mandatory"]
     },
+    subDomine:{
+        type: String,
+        required: [true, "Sub domine is required contact support"],
+        unique: true
+    },
     role:{
         type: String,
         enum: ['user', 'seller', 'admin'],
-        default: 'user'
+        default: 'admin'
     }
 });
 
