@@ -5,6 +5,10 @@ const projectSchema = new mongoose.Schema({
         type: String,
         required: [true, "Name is mandatory"]
     },
+    organisationName: {
+        type: String,
+        // required: [true, "Name is mandatory"]
+    },
 });
 
 module.exports = mongoose.model('projects', projectSchema);

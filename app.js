@@ -1,16 +1,19 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors')
 
 // Router imports
 const userRoutes = require('./routes/userRoutes');
 const staffRoutes = require('./routes/staffRouter');
 const projectRoutes = require('./routes/projectRoutes');
 const taskRoutes = require('./routes/taskRoutes');
+const checkSubdomainAvailability = require('./middleware/checkDomain');
 
 const app = express();
 const PORT = 1997;
 
 app.use(express.json());
+app.use(cors())
 
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://chandrufsdtesting:chandru@cluster0.2syaxg8.mongodb.net')
