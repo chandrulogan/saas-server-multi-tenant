@@ -63,7 +63,7 @@ const companySignIn = async (req, res) => {
         const db = connectToDatabase("odonine-tenant");
 
         // Find the user by email and password
-        const User = db.model('odonine-tenant', UserModel.schema);
+        const User = db.model('odonine-tenant', domainModel.schema);
         const user = await User.findOne({ email, password, subDomine });
         console.log(user);
         // If user not found, return error
@@ -74,7 +74,10 @@ const companySignIn = async (req, res) => {
         // Close the connection
         db.close();
 
-        res.status(200).json({ message: "Sign in successful" });
+        res.status(200).json({ 
+            message: "Sign in successful",
+            user
+        });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

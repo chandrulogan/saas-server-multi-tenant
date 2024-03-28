@@ -29,4 +29,24 @@ const createProject = async (req, res) => {
     }
 }
 
-module.exports = { createProject };
+const getProjectList = async (req, res) => {
+    const { subDomine } = req.params;
+
+    try {
+        const db = connectToDatabase(subDomine);
+
+        const User = db.model('projects', projectModel.schema);
+        const projectList = await User.find();
+
+        // .select('_id name');
+
+        db.close();
+
+        res.status(200).json(projectList);
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+module.exports = { createProject, getProjectList };
