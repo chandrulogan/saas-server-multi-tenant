@@ -13,7 +13,7 @@ const createTask = async (req, res) => {
             organisationName: req.body.organisationName,
             projectName: req.body.projectName,
             projectId: req.body.projectId,
-            taskInfo: req.body.taskInfo,
+            taskInfo: req.body.taskName,
             assignedTo: req.body.assignedTo,
             assignedToId: req.body.assignedToId,
         });
@@ -33,4 +33,23 @@ const createTask = async (req, res) => {
     }
 }
 
-module.exports = { createTask };
+const viewTask = async(req, res) => {
+    const { subDomine } = req.params;
+    const db = await connectToDatabase(subDomine);
+
+    try {
+        const Task = db.model('tasklist', taskModel.schema);
+
+        const taskList = await Task.find();
+        // .select('_id name');
+
+        db.close();
+
+        res.status(200).json(taskList);
+    } catch (error) {
+        
+    }
+
+}
+
+module.exports = { createTask, viewTask };

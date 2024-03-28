@@ -11,7 +11,7 @@ const taskSchema = new mongoose.Schema({
     },
     projectId: {
         type: String,
-        required: [true, "projectId is mandatory"]
+        // required: [true, "projectId is mandatory"]
     },
     taskInfo: {
         type: String,

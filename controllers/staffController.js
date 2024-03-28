@@ -52,11 +52,33 @@ const staffSignin = async (req, res) => {
         // Close the connection
         db.close();
 
-        res.status(200).json({ message: "Sign in successful" });
+        res.status(200).json({ 
+            message: "Sign in successful",
+            user
+        });
 
     } catch (error) {
         res.status(500).json({ message: err.message });
     }
 }
 
-module.exports = { staffSignUp, staffSignin };
+const getStaffList = async (req, res) => {
+    const { subDomine } = req.params;
+
+    try {
+        const db = connectToDatabase(subDomine);
+
+        const User = db.model('staff', staffModel.schema);
+        const staffList = await User.find().select('_id name');;
+
+        db.close();
+
+        res.status(200).json(staffList);
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+
+module.exports = { staffSignUp, staffSignin, getStaffList };
