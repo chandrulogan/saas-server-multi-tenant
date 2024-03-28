@@ -2,7 +2,7 @@ const { connectToDatabase } = require('../utils/database');
 const staffModel = require('../models/staffModel');
 
 const staffSignUp = async (req, res) => {
-    const { name, email, mobileNumber, password, organisationName } = req.body;
+    const { organisationName } = req.body;
 
     const db = await connectToDatabase(organisationName);
 
@@ -34,4 +34,29 @@ const staffSignUp = async (req, res) => {
     }
 }
 
-module.exports = { staffSignUp };
+const staffSignin = async (req, res) => {
+    const { email, password, subDomine } = req.body;
+
+    try {
+        const db = connectToDatabase(subDomine);
+
+        // Find the user by email and password
+        const User = db.model('staff', staffModel.schema);
+        const user = await User.findOne({ email, password });
+        console.log(user);
+        // If user not found, return error
+        if (!user) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        // Close the connection
+        db.close();
+
+        res.status(200).json({ message: "Sign in successful" });
+
+    } catch (error) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+module.exports = { staffSignUp, staffSignin };

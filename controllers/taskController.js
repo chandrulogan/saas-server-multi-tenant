@@ -12,8 +12,10 @@ const createTask = async (req, res) => {
         const newTask = new Task({
             organisationName: req.body.organisationName,
             projectName: req.body.projectName,
+            projectId: req.body.projectId,
             taskInfo: req.body.taskInfo,
-            assignedTo: req.body.assignedTo
+            assignedTo: req.body.assignedTo,
+            assignedToId: req.body.assignedToId,
         });
 
         await newTask.save();

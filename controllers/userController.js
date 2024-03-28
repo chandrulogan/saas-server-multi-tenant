@@ -23,12 +23,12 @@ const createUser = async (req, res) => {
 
         await newUser.save();
 
-        // Close the connection after saving the user
-        db.close();
+        // // Close the connection after saving the user
+        // db.close();
 
         // Now, create a new domain
-        const domainDb = connectToDatabase('odnine-tenant');
-        const domain = domainDb.model('odnine-tenant', domainModel.schema);
+        const domainDb = connectToDatabase('odonine-tenant');
+        const domain = domainDb.model('odonine-tenant', domainModel.schema);
         const newDomain = new domain({
             organisationName: req.body.organisationName,
             name: req.body.name,
@@ -37,27 +37,34 @@ const createUser = async (req, res) => {
             password: req.body.password,
             confirmPassword: req.body.confirmPassword,
             role: req.body.role,
-            registeredDomains: formattedDbName
+            subDomine: formattedDbName
         });
+
+        console.log(newDomain);
 
         await newDomain.save();
         domainDb.close();
 
         res.status(201).json(newUser);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        if (err.code === 11000 && err.keyPattern.subDomine) {
+            // res.status(400).json({ message: `The subDomine '${formattedDbName}' is already in use.` });
+            res.status(400).json({ message: err });
+        } else {
+            res.status(400).json({ message: err.message });
+        }
     }
 };
 
 const companySignIn = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, subDomine } = req.body;
 
     try {
-        const db = connectToDatabase("odnine-tenant");
+        const db = connectToDatabase("odonine-tenant");
 
         // Find the user by email and password
-        const User = db.model('odnine-tenant', UserModel.schema);
-        const user = await User.findOne({ email, password });
+        const User = db.model('odonine-tenant', UserModel.schema);
+        const user = await User.findOne({ email, password, subDomine });
         console.log(user);
         // If user not found, return error
         if (!user) {

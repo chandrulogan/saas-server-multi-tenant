@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const companydomains = new mongoose.Schema({
-    registeredDomains: {
-        type: String,
-        required: [true, "Organisation name is mandatory"],
-        unique: true
-    },
     organisationName: {
         type: String,
     },
@@ -26,8 +21,8 @@ const companydomains = new mongoose.Schema({
     },
     subDomine: {
         type: String,
-        unique: true
+        // unique: true
     },
 });
 
-module.exports = mongoose.model('registered-domain', companydomains);
+module.exports = mongoose.model('odonine-tenant', companydomains);
